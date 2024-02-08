@@ -43,3 +43,25 @@ class MovieDao:
     # Close the cursor and connection
     cursor.close()
     conn.close()
+
+  def update(self, movie):
+    """
+    Atualiza os dados de um filme existente no banco de dados.
+    :param movie: um objeto Movie contendo as novas informações e o id do filme a ser atualizado.
+    """
+    # Obter conexão com o banco de dados
+    conn = Database.get_connection()
+    cursor = conn.cursor()
+
+    # Preparar os dados do filme para atualização
+    updated_movie = (movie.name, movie.year, movie.id)
+
+    # Executar a consulta de atualização
+    cursor.execute("UPDATE movie SET name = ?, year = ? WHERE id = ?;", updated_movie)
+
+    # Efetuar as mudanças no banco de dados
+    conn.commit()
+
+    # Fechar o cursor e a conexão
+    cursor.close()
+    conn.close()

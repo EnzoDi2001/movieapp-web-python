@@ -30,20 +30,20 @@ def login():
 
 
 @bp.route('/main')
-@login_required
+#@login_required
 def main():
   return render_template('main.html')
 
 
 @bp.route('/logout')
-@login_required
+#@login_required
 def logout():
   logout_user()
   return redirect(url_for('main.index'))
 
 
 @bp.route('/movie', methods=['GET', 'POST'])
-@login_required
+#@login_required
 def movie():
   if request.method == "GET":
     return render_template('movie.html')
@@ -57,7 +57,7 @@ def movie():
 
 
 @bp.route('/del_movie', methods=['GET'])
-@login_required
+#@login_required
 def del_movie():
   iid = request.args.get('id')
   if iid:
@@ -67,9 +67,32 @@ def del_movie():
 
 
 @bp.route('/movies')
-@login_required
+#@login_required
 def movies():
   movies = []
   for m in movieDAO.get_all():
     movies.append({"id": m.id, "name": m.name, "year": m.year})
   return render_template('movies.html', movies=movies)
+
+@bp.route('/update_movie', methods=['GET', 'POST'])
+#@login_required
+def update_movie():
+    if request.method == 'GET':
+        # Se o método for GET, apenas renderiza o formulário de atualização
+        return render_template('update.html')
+    elif request.method == 'POST':
+        # Processa a atualização do filme aqui
+        movie_name = request.form['moviename_field']
+        movie_year = request.form['year_field']
+        # Você precisa de um campo escondido no formulário ou de algum método para determinar qual filme atualizar
+        movie_id = request.form['movie_id']
+
+        # Cria um objeto Movie com os dados do formulário
+        movie = Movie(movie_id, movie_name, int(movie_year))
+
+        # Atualiza o filme no banco de dados
+        movieDAO.update(movie)
+
+        # Redireciona para a página principal ou para onde você achar mais adequado
+        flash('Movie updated successfully!')
+        return redirect(url_for('main.main'))
