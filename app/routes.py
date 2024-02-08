@@ -3,6 +3,7 @@ from flask_login import login_required, login_user, logout_user
 from app.model.user_dao import UserDao
 from app.model.movie_dao import MovieDao
 from app.model.movie import Movie
+from app.model.user import User
 
 userDAO = UserDao()
 movieDAO = MovieDao()
@@ -96,3 +97,24 @@ def update_movie():
         # Redireciona para a página principal ou para onde você achar mais adequado
         flash('Movie updated successfully!')
         return redirect(url_for('main.main'))
+
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['new_username']
+        password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        # Validar os campos, incluindo se as senhas coincidem e se o usuário já existe
+        if password != confirm_password:
+            return render_template('register.html', error="Passwords do not match.")
+        if userDAO.find(username) is not None:
+            return render_template('register.html', error="Username already exists.")
+
+        # Criar novo usuário
+        newUser = User(username, password)
+        userDAO.add(newUser)
+        # Redirecionar para a página de login ou onde preferir
+        return redirect(url_for('main.index'))
+    else:
+        return render_template('register.html')

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-6">
+      <div class="col-md-12">
+        <h1>Register</h1>
+        <form method="post" action="/register">
+          <div class="mb-3">
+            <label for="new_username" class="form-label">Username:</label>
+            <input type="text" class="form-control" name="new_username" id="new_username" required>
+          </div>
+          <div class="mb-3">
+            <label for="new_password" class="form-label">Password:</label>
+            <input type="password" class="form-control" id="new_password" name="new_password" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+          </div>
+          <input type="submit" value="REGISTER" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}
+{% endblock %}

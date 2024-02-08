@@ -19,3 +19,21 @@ class UserDao:
     cursor.close()
     conn.close()
     return user
+
+  def add(self, user):
+    """
+    Adiciona um novo usuário ao banco de dados.
+    :param user: Um objeto User contendo o nome de usuário e a senha.
+    """
+    conn = Database.get_connection()
+    cursor = conn.cursor()
+    # Certifique-se de que o hash da senha seja feito antes de chamar este método,
+    # ou faça aqui se preferir.
+    cursor.execute("INSERT INTO user (name, password) VALUES (?, ?);", (user.name, user.password))
+
+    # Commit as mudanças para o banco de dados
+    conn.commit()
+
+    # Fechar o cursor e a conexão
+    cursor.close()
+    conn.close()
