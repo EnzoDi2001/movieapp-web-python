@@ -5,6 +5,7 @@ Moreover, this example was initially set up to run using Replit.com
 
 Enzo Di Monaco Schmidt 769649
 Giovanni Grizante Aurelio - 769865
+Lucas Campos de Oliveira Faria - 769894
 
 ## To run locally in your PC, you need Python installed and:
 
